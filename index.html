@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Author Submission Hub — Publishing Directory 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c1018;
+    --surface: #111520;
+    --surface2: #161c2a;
+    --border: #1e2a40;
+    --border2: #253050;
+    --text: #d4ddf0;
+    --text-dim: #6a80a0;
+    --text-muted: #3a4f6a;
+    --accent: #c8a96e;
+    --accent2: #7ab3e0;
+    --green: #4cbe8a;
+    --red: #e05a6a;
+    --orange: #e8932a;
+    --purple: #9b78d4;
+    --blue: #4a90d8;
+    --gold: #e8c84a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* Subtle noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px 60px; position: relative; z-index: 1; }
+
+  /* ── HEADER ── */
+  header { text-align: center; margin-bottom: 48px; }
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 300;
+    color: #e8eeff;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .subtitle {
+    font-size: 1rem;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  .updated-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--accent);
+    padding: 5px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── STATS ── */
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 28px 0;
+  }
+  .stat-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 18px;
+    text-align: center;
+    min-width: 90px;
+  }
+  .stat-pill .num { font-size: 1.6rem; font-weight: 600; line-height: 1; }
+  .stat-pill .lbl { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 3px; }
+
+  /* ── UPDATE NOTICE ── */
+  .update-notice {
+    background: linear-gradient(135deg, #0a1f0f, #0d1a12);
+    border: 1px solid #1a4025;
+    border-left: 3px solid var(--green);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 30px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .update-notice .icon { font-size: 1.3rem; line-height: 1; margin-top: 2px; flex-shrink: 0; }
+  .update-notice h3 { color: var(--green); font-size: 0.85rem; font-family: 'DM Mono', monospace; font-weight: 500; margin-bottom: 5px; }
+  .update-notice p { color: #7aaa85; font-size: 0.82rem; line-height: 1.7; font-family: 'DM Mono', monospace; font-weight: 300; }
+  .update-notice strong { color: #a0d4a8; }
+
+  /* ── SEARCH ── */
+  .search-wrap { margin-bottom: 20px; position: relative; }
+  .search-wrap input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    padding: 12px 16px 12px 42px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-family: 'Cormorant Garamond', serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-wrap input:focus { border-color: var(--accent2); }
+  .search-wrap input::placeholder { color: var(--text-muted); }
+  .search-wrap .search-icon {
+    position: absolute;
+    left: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1rem;
+    pointer-events: none;
+  }
+
+  /* ── TABS ── */
+  .tab-nav {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .tab-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-weight: 400;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text-dim); border-color: var(--border2); }
+  .tab-btn.active {
+    background: var(--surface2);
+    color: var(--accent2);
+    border-color: var(--accent2);
+  }
+  .tab-count { opacity: 0.6; font-size: 0.75rem; }
+
+  /* ── STATUS FILTER ── */
+  .status-filter {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .filter-btn {
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.68rem;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { color: var(--text-dim); }
+  .filter-btn.active { background: var(--surface2); border-color: var(--border2); color: var(--accent2); }
+
+  /* ── SECTION HEADING ── */
+  .section-intro {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--border2);
+    border-radius: 12px 0 0 12px;
+    transition: background 0.2s;
+  }
+  .card.open, .card:hover { background: var(--surface2); border-color: var(--border2); }
+  .card.status-open::before { background: var(--green); }
+  .card.status-seasonal::before { background: var(--orange); }
+  .card.status-restricted::before { background: var(--purple); }
+  .card.status-closed::before { background: var(--red); }
+  .card.status-watch::before { background: var(--blue); }
+  .card.status-future::before { background: var(--text-muted); }
+
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .card-left { flex: 1; }
+  .card-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .card-flag { font-size: 1.1rem; line-height: 1; }
+  .card-name { font-size: 1.05rem; font-weight: 600; color: #e0eaff; letter-spacing: 0.01em; }
+  .card-agents { font-size: 0.78rem; color: var(--text-muted); font-style: italic; font-family: 'DM Mono', monospace; font-weight: 300; margin-bottom: 5px; }
+  .card-genres { font-size: 0.85rem; color: var(--text-dim); }
+  .card-genres span { color: var(--accent2); }
+  .card-chevron { color: var(--text-muted); font-size: 0.8rem; flex-shrink: 0; transition: transform 0.2s; }
+  .card.open .card-chevron { transform: rotate(180deg); }
+
+  /* Status badges */
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .badge-open { background: #0d2e1e; color: var(--green); border: 1px solid #1a5030; }
+  .badge-closed { background: #2a0e12; color: var(--red); border: 1px solid #501828; }
+  .badge-seasonal { background: #2a1a08; color: var(--orange); border: 1px solid #503010; }
+  .badge-restricted { background: #1e1030; color: var(--purple); border: 1px solid #3a1e60; }
+  .badge-watch { background: #0e1e30; color: var(--blue); border: 1px solid #1a3a58; }
+  .badge-future { background: #1a1a1a; color: #888; border: 1px solid #333; }
+
+  /* Card expanded content */
+  .card-body {
+    display: none;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .card.open .card-body { display: block; }
+
+  .detail-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+  .detail-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--accent);
+    white-space: nowrap;
+    margin-top: 2px;
+    min-width: 70px;
+  }
+  .detail-value { color: #b8cce0; }
+
+  .submit-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 7px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    color: var(--accent2);
+    border-radius: 7px;
+    font-size: 0.78rem;
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    transition: all 0.15s;
+  }
+  .submit-btn:hover { background: var(--surface2); border-color: var(--accent2); }
+
+  /* ── RESOURCE CARDS ── */
+  .resource-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .resource-card:hover { background: var(--surface2); border-color: var(--border2); }
+  .resource-name { font-size: 1rem; font-weight: 600; color: #e0eaff; margin-bottom: 4px; }
+  .resource-desc { font-size: 0.82rem; color: var(--text-dim); font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.6; }
+  .resource-link {
+    display: inline-block;
+    flex-shrink: 0;
+    padding: 7px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--accent2);
+    border-radius: 7px;
+    font-size: 0.78rem;
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+  }
+  .resource-link:hover { border-color: var(--accent2); }
+
+  /* ── NO RESULTS ── */
+  .no-results { text-align: center; color: var(--text-muted); padding: 50px 0; font-style: italic; font-size: 1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 50px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  footer p { color: var(--text-muted); font-size: 0.78rem; font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.9; }
+
+  /* ── DIVIDER ── */
+  .ornament { text-align: center; color: var(--text-muted); margin: 30px 0 10px; font-size: 1rem; letter-spacing: 0.5em; }
+
+  @media (max-width: 600px) {
+    .stats-row { gap: 6px; }
+    .stat-pill { min-width: 70px; padding: 8px 12px; }
+    .tab-btn { font-size: 0.75rem; padding: 6px 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="eyebrow">Australian & Worldwide Publishing Directory</div>
+    <h1>Author <em>Submission</em> Hub</h1>
+    <p class="subtitle">Agents · Publishers · Awards · Resources for Fiction Writers</p>
+    <span class="updated-badge">⟳ Last Updated: March 12, 2026</span>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-pill"><div class="num" style="color:#7ab3e0">11</div><div class="lbl">AU Agents</div></div>
+    <div class="stat-pill"><div class="num" style="color:#4cbe8a">4</div><div class="lbl">Open Now</div></div>
+    <div class="stat-pill"><div class="num" style="color:#e8932a">2</div><div class="lbl">Seasonal</div></div>
+    <div class="stat-pill"><div class="num" style="color:#9b78d4">17</div><div class="lbl">AU Publishers</div></div>
+    <div class="stat-pill"><div class="num" style="color:#e8c84a">8</div><div class="lbl">AU Awards</div></div>
+    <div class="stat-pill"><div class="num" style="color:#c8a96e">16</div><div class="lbl">Worldwide</div></div>
+  </div>
+
+  <!-- UPDATE NOTICE -->
+  <div class="update-notice">
+    <div class="icon">🔄</div>
+    <div>
+      <h3>Weekly Update Guide</h3>
+      <p>Check these sites weekly for changes: <strong>jonesnovelediting.com</strong> (AU publishers, updated monthly) · <strong>lloydliterary.com</strong> (AU agents, quarterly) · <strong>manuscriptwishlist.com</strong> (agents' current wants) · <strong>asauthors.org.au</strong> (awards & prizes). See the <strong>Live Resources</strong> tab for direct links.</p>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input type="text" id="searchInput" placeholder="Search by name, genre, or keyword…" oninput="filterAll()">
+  </div>
+
+  <!-- TABS -->
+  <nav class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab('au-agents',this)">🇦🇺 AU Agents <span class="tab-count">(11)</span></button>
+    <button class="tab-btn" onclick="switchTab('au-publishers',this)">🇦🇺 AU Publishers <span class="tab-count">(17)</span></button>
+    <button class="tab-btn" onclick="switchTab('au-awards',this)">🏆 AU Awards <span class="tab-count">(8)</span></button>
+    <button class="tab-btn" onclick="switchTab('world-agents',this)">🌏 World Agents <span class="tab-count">(8)</span></button>
+    <button class="tab-btn" onclick="switchTab('world-publishers',this)">🌍 World Publishers <span class="tab-count">(8)</span></button>
+    <button class="tab-btn" onclick="switchTab('resources',this)">📚 Live Resources <span class="tab-count">(8)</span></button>
+  </nav>
+
+  <!-- STATUS FILTER -->
+  <div class="status-filter" id="statusFilter">
+    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('open',this)">Open</button>
+    <button class="filter-btn" onclick="setFilter('seasonal',this)">Seasonal</button>
+    <button class="filter-btn" onclick="setFilter('restricted',this)">Restricted</button>
+    <button class="filter-btn" onclick="setFilter('closed',this)">Closed</button>
+  </div>
+
+  <!-- CONTENT PANELS -->
+  <div id="content"></div>
+
+  <footer>
+    <div class="ornament">· · ·</div>
+    <p>
+      ⚠ Submission windows change frequently — always verify on the agency/publisher's official website before submitting.<br>
+      Sources: lloydliterary.com · jonesnovelediting.com · reedsy.com · asauthors.org.au · writingnsw.org.au · individual agency websites.<br>
+      Built for a fiction author · Updated via GitHub Pages
+    </p>
+  </footer>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────
+
+const DATA = {
+  "au-agents": {
+    intro: "Australian literary agents — submission status as of March 2026. Always verify current status on the agency's official website before submitting. Most AU agencies only represent Australian or NZ residents.",
+    items: [
+      { name:"A4 Literary", agents:"Grace Heifetz, Tom Gilliatt, Michaela McGuire, Rebecca Slater", status:"open", genres:"Literary fiction, upmarket fiction, narrative nonfiction, memoir", notes:"Open to AU/NZ authors only. NOT accepting fantasy, sci-fi, YA, children's, self-help, poetry, or short story collections.", submit:"https://www.a4literary.com/submissions", email:"submissions@a4literary.com" },
+      { name:"Alex Adsett Literary", agents:"Alex Adsett, Abigail Nathan, Rochelle Fernandez", status:"restricted", genres:"Fiction, SFF, crime, romance, narrative nonfiction (all ages)", notes:"Open only to: diverse/underrepresented authors, referrals, conference pitches, or publishing community members.", submit:"https://alexadsett.com.au/submissions", email:"Via QueryManager portal" },
+      { name:"Annabel Barker Agency", agents:"Annabel Barker", status:"closed", genres:"Children's, YA", notes:"Currently closed. Check their Instagram for reopening dates.", submit:"https://annabelbarker.com/submissions", email:"hello@annabelbarker.com" },
+      { name:"Australian Literary Management (ALM)", agents:"Lyn Tranter", status:"closed", genres:"Fiction (excl. SFF, children's), nonfiction (excl. self-help)", notes:"Not currently accepting. AU residents only. Does not look at work already rejected by multiple publishers.", submit:"https://austlit.com/submissions", email:"alphaalm8@gmail.com" },
+      { name:"Curtis Brown Australia", agents:"Clare Forster, Fiona Inglis, Pippa Masson, Tara Wynne", status:"seasonal", genres:"Adult fiction, nonfiction, children's books", notes:"Open MARCH and AUGUST only — 1st to last day of month. Next window: August 2026. Manuscripts received outside this window are deleted.", submit:"https://www.curtisbrown.com.au/submissions", email:"submission@curtisbrown.com.au" },
+      { name:"Golvan Arts Management", agents:"Debbie Golvan", status:"open", genres:"Fiction and nonfiction (AU-based clients only)", notes:"Send brief project description, author background, and first 1–3 pages only. Disclose any other submissions.", submit:"https://www.golvanarts.com.au/contact-us", email:"Via website contact form" },
+      { name:"High Spot Literary", agents:"Vicki Marsdon, Nadine Nathan, Catherine Wallace, Fergus Inder", status:"closed", genres:"Broad fiction and nonfiction", notes:"CLOSED until further notice. When open, submit only on first two days of the month.", submit:"https://www.highspotlit.com/submission-information", email:"Via website form" },
+      { name:"HLA Management", agents:"Hilary Linstead", status:"closed", genres:"Various", notes:"Referral only — not accepting unsolicited material at this time.", submit:"https://www.hlamgt.com.au/contact-us", email:"N/A — referral only" },
+      { name:"Margaret Connolly & Associates", agents:"Margaret Connolly", status:"open", genres:"Wide range of fiction and nonfiction, illustration", notes:"30 years of experience. Member of ALAA. Always check website for current status.", submit:"https://www.margaretconnolly.com.au", email:"Via website" },
+      { name:"Margaret Kennedy Agency (MK Agency)", agents:"Hannah Douglas", status:"seasonal", genres:"Adult literary fiction (not genre fiction), literary nonfiction", notes:"Open JANUARY and JULY only.", submit:"https://www.margaretkennedyagency.com/submissions", email:"Via website" },
+      { name:"Melanie Ostell Literary", agents:"Melanie Ostell", status:"open", genres:"Literary fiction, narrative nonfiction, memoir", notes:"25+ years in publishing. Known for championing literary fiction. Confirm current status on website.", submit:"https://melanieostell.com.au", email:"Via website" },
+
+    ]
+  },
+  "au-publishers": {
+    intro: "Australian publishers currently accepting unsolicited manuscripts as of March 2026. This list is updated monthly — check jonesnovelediting.com for the latest.",
+    items: [
+      { name:"Affirm Press", genres:"Literary and genre fiction, nonfiction", notes:"Australian authors or authors based in AU only. Kids program opens: June 2 & December 2 annually.", submit:"https://affirmpress.com.au/submissions" },
+      { name:"Allen & Unwin — The Friday Pitch", genres:"Adult literary & genre fiction, nonfiction, illustrated books (excl. adult high fantasy & sci-fi)", notes:"Submit every Friday via their online portal. Named Publisher of the Year 2023.", submit:"https://www.allenandunwin.com/about/submission-guidelines/the-friday-pitch" },
+      { name:"Black Inc.", genres:"Literary & commercial nonfiction — history, current affairs, memoir, biography", notes:"Australian writers only. Proposal format.", submit:"https://www.blackincbooks.com.au/submissions" },
+      { name:"Ford Street Publishing", genres:"Middle grade and YA fiction", notes:"~50,000 words for YA novels. Independent AU publisher.", submit:"https://fordstreetpublishing.com/about/submissions/" },
+      { name:"Fremantle Press", genres:"Australian literary fiction, nonfiction, children's", notes:"Also runs the prestigious biennial Hungerford Award for unpublished manuscripts.", submit:"https://fremantlepress.com.au/for-writers/submitting-your-work/" },
+      { name:"Hardie Grant Children's Publishing", genres:"Picture books and graphic novels (author-illustrators)", notes:"AU/NZ residents only.", submit:"https://publishing.hardiegrant.com/en-au/childrens/submissions" },
+      { name:"Hot Tree Publishing", genres:"M/F, M/M and F/F romance — contemporary, paranormal, fantasy, college, military etc.", notes:"50,000+ words. Serials of 30–50k considered if complete.", submit:"https://sites.google.com/hottreepublishing.com/hottreepublishing/submissions" },
+      { name:"JOAN Press (Allen & Unwin imprint)", genres:"Literary fiction, poetry, nonfiction pushing boundaries", notes:"New imprint. Seeks marginalised voices and stories that find joy in resistance.", submit:"https://www.joanpress.com/submissions" },
+      { name:"Melbourne University Press", genres:"Nonfiction", notes:"Australia's first university press, established 1922.", submit:"https://www.mup.com.au/resources/submissions" },
+      { name:"Monash University Publishing", genres:"Sustainability, environment, Indigenous affairs, politics, sociology, literature, history, biography", notes:"Strong academic and general readership focus.", submit:"https://publishing.monash.edu/submissions/" },
+      { name:"New Dawn Publishing", genres:"Speculative fiction", notes:"Independent Perth-based publisher.", submit:"https://newdawnpublishing.com.au/submissions/" },
+      { name:"Pan Macmillan Australia", genres:"Commercial and literary fiction, narrative nonfiction, memoir, history, true crime, YA, MG", notes:"Online portal for unagented authors. Major publisher.", submit:"https://www.panmacmillan.com.au/submissions/" },
+      { name:"Penguin Random House Australia", genres:"Genre and literary fiction", notes:"AU/NZ residents and citizens only. Adult division.", submit:"https://www.penguin.com.au/getting-published/adult" },
+      { name:"Riveted Press", genres:"Picture books, middle grade and YA fiction", notes:"Formerly Yellow Bricks Books. Queensland-based independent.", submit:"https://rivetedpress.com.au/submissions" },
+      { name:"Scribe Publications", genres:"Literary fiction and serious nonfiction", notes:"Highly regarded 40+ year independent. Strong literary reputation.", submit:"https://scribepublications.com.au/about-us/submissions" },
+      { name:"Text Publishing", genres:"Genre fiction (crime, thriller, fantasy, romance, historical, LGBTQIA+, YA, MG), nonfiction", notes:"10,000–120,000 words. AU/NZ residents. Melbourne-based independent.", submit:"https://www.textpublishing.com.au/manuscript-submissions" },
+      { name:"UQP (University of Queensland Press)", genres:"Literary fiction, children's and YA, poetry, nonfiction", notes:"Wholly owned by UQ. Produces culturally significant Australian works.", submit:"https://www.uqp.com.au/pages/submissions" },
+    ]
+  },
+  "au-awards": {
+    intro: "Australian literary awards for unpublished manuscripts and fiction. Deadlines change year to year — always confirm on the official website.",
+    items: [
+      { name:"Victorian Premier's Literary Award — Unpublished Manuscript", status:"closed", prize:"$15,000 + 2-week residency at McCraith House, Dromana (RMIT partnership)", eligibility:"Victorian residents only. Unpublished fiction manuscript — novel or story collection.", closingDate:"Opens ~September 2026 for 2027 awards", notes:"Past winners include Graeme Simsion (The Rosie Project), Jane Harper (The Dry), and Maxine Beneba Clarke (Foreign Soil). One of Australia's most prestigious launching pads.", website:"https://www.wheelercentre.com/victorian-premier-s-literary-awards" },
+      { name:"ASA/HQ Fiction Prize", status:"closed", prize:"$10,000 advance against royalties + publishing contract with HarperCollins HQ", eligibility:"Australian authors. Complete unpublished adult fiction manuscript.", closingDate:"Biennial. 2026 edition closed Jan 30, 2026. Next expected: late 2027.", notes:"Biennial prize run by the Australian Society of Authors with HarperCollins. Past winners have gone on to multi-book careers.", website:"https://www.asauthors.org.au" },
+      { name:"Penguin Literary Prize", status:"closed", prize:"Publishing contract with Penguin Random House Australia", eligibility:"AU/NZ residents. Complete unpublished adult literary fiction manuscript.", closingDate:"2026 edition closed Dec 15, 2025. Next round expected ~Nov/Dec 2026.", notes:"Established to find and develop new Australian authors of literary fiction.", website:"https://www.penguin.com.au/penguinliteraryprize" },
+      { name:"Hungerford Award (Fremantle Press)", status:"watch", prize:"$15,000 cash + publishing contract with Fremantle Press + fellowship at Centre for Stories", eligibility:"Unpublished writers. Adult fiction, narrative nonfiction, YA fiction, or verse novel. 50,000–100,000 words.", closingDate:"Biennial (even-numbered years) — watch for 2026 round opening.", notes:"WA's most prestigious award for unpublished work. Held in even-numbered years.", website:"https://fremantlepress.com.au/for-writers/hungerford-award/" },
+      { name:"Victorian Premier's Literary Award — Fiction (published)", status:"future", prize:"$25,000 + eligible for $100,000 Victorian Prize for Literature", eligibility:"Books published between Jan 1–Dec 31 of prior year.", closingDate:"Opens ~September 2026 for books published during 2026.", notes:"Keep this in mind for future published works. Australia's richest state-based literary prize pool.", website:"https://www.wheelercentre.com/victorian-premier-s-literary-awards" },
+      { name:"Banjo Paterson Writing Awards", status:"open", prize:"Cash prizes across categories", eligibility:"Short story, contemporary poetry, children's writing. Australian themed. All writers.", closingDate:"May 1, 2026", notes:"Established 1991. Annual. Named for Banjo Paterson. Three separate categories.", website:"https://www.orange.nsw.gov.au/banjopaterson" },
+      { name:"Peter Carey Short Story Award", status:"open", prize:"Cash prize", eligibility:"Short fiction. Open to Australian writers.", closingDate:"March 12, 2026", notes:"10th year in 2026. Named for Booker Prize-winning Australian author Peter Carey.", website:"https://www.moorabool.vic.gov.au/Services-and-support/Libraries/Creative-writing-opportunities/Peter-Carey-Short-Story-Awards-2026" },
+      { name:"Eastwood Hills FAW Literary Competition", status:"open", prize:"Cash prizes", eligibility:"Flash fiction, poetry, memoir, and short story. Any theme. All writers.", closingDate:"May 15, 2026", notes:"Annual. Run by the Fellowship of Australian Writers.", website:"https://fawnsw.org.au" },
+    ]
+  },
+  "world-agents": {
+    intro: "International literary agents accepting submissions from Australian authors — UK, USA, and Canada. Always confirm submission guidelines on their official websites.",
+    items: [
+      { name:"Curtis Brown (UK)", flag:"🇬🇧", location:"London, UK", genres:"Literary fiction, commercial fiction, crime, YA, children's, nonfiction", notes:"One of the UK's oldest and largest agencies. International authors accepted. Represents Peter Carey, Kate Atkinson, Kazuo Ishiguro.", submit:"https://www.curtisbrown.co.uk/clients/submit-your-work" },
+      { name:"Madeleine Milburn Literary Agency", flag:"🇬🇧", location:"London, UK", genres:"Commercial fiction, psychological thrillers, romantic comedy, MG, YA, nonfiction", notes:"Accepts international authors. Submit via online form — 3 chapters + synopsis. Hands-on approach with global deals.", submit:"https://www.madeleinemilburn.co.uk/submissions/" },
+      { name:"Eve White Literary Agency", flag:"🇬🇧", location:"London, UK", genres:"Wide range of adult fiction and nonfiction, children's", notes:"Accepts submissions from ANYWHERE in the world, written in English. Replies within one week. Does not use AI screening.", submit:"https://evewhite.co.uk/submissions/" },
+      { name:"Mushens Entertainment", flag:"🇬🇧", location:"London, UK", genres:"Commercial and genre fiction, women's fiction, YA, fantasy, thrillers", notes:"Juliet Mushens is highly regarded for discovering and launching debut authors into major careers.", submit:"https://www.mushensentertainment.com/submissions" },
+      { name:"Donald Maass Literary Agency", flag:"🇺🇸", location:"New York, USA", genres:"Commercial fiction, literary fiction, crime, historical, SF/F, thrillers", notes:"One of the most reputable US agencies. Accepts international queries. Represent major bestsellers.", submit:"https://www.maassagency.com/submit" },
+      { name:"New Leaf Literary & Media", flag:"🇺🇸", location:"New York, USA", genres:"Fiction (all categories), nonfiction, YA, MG", notes:"Known for international deals. Accepts queries from anywhere. Strong rights department.", submit:"https://www.newleafliterary.com/submissions/" },
+      { name:"Aevitas Creative Management", flag:"🇺🇸", location:"New York, USA", genres:"Literary fiction, upmarket commercial fiction, narrative nonfiction", notes:"Mid-to-large prestige agency. Query individual agents via website. International authors welcome.", submit:"https://aevitascreative.com/agents/" },
+      { name:"KT Literary", flag:"🇺🇸", location:"Colorado, USA", genres:"MG, YA, adult fiction (romance, SF/F, literary)", notes:"Sara Megibow is highly active on Manuscript Wishlist. Accepts international queries. Strong debut track record.", submit:"https://ktliterary.com/submissions/" },
+    ]
+  },
+  "world-publishers": {
+    intro: "International publishers accepting unsolicited manuscripts without an agent — including those open to Australian authors.",
+    items: [
+      { name:"Joffe Books", flag:"🇬🇧", location:"London, UK", genres:"Crime, mysteries, psychological thrillers, cozy crime, police procedurals, suspense, domestic noir", notes:"Accepts submissions from ANYWHERE worldwide. 60,000+ words minimum. Responds within 3 months.", submit:"https://joffebooks.com/submissions" },
+      { name:"Bookouture (Hachette UK)", flag:"🇬🇧", location:"London, UK", genres:"Commercial fiction — crime, thriller, suspense, women's fiction, romance, historical, cozy mystery, SF/F", notes:"Digital-first division of Hachette. International authors welcome. Very active list.", submit:"https://www.bookouture.com/submit/" },
+      { name:"Bluemoose Books", flag:"🇬🇧", location:"Hebden Bridge, UK", genres:"Literary and upmarket fiction", notes:"Independent with strong reputation for literary debuts. International submissions accepted.", submit:"https://bluemoosebooks.com/submissions/" },
+      { name:"Birlinn / Polygon", flag:"🇬🇧", location:"Edinburgh, Scotland", genres:"Literary fiction, crime, thriller, suspense, women's fiction, historical fiction, romance (60,000+ words)", notes:"Encourages agented submissions but accepts direct. Strong commercial fiction list.", submit:"https://www.birlinn.co.uk/pages/submissions" },
+      { name:"Tor Books (Macmillan)", flag:"🇺🇸", location:"New York, USA", genres:"Science fiction, fantasy, horror", notes:"Accepts unagented submissions. International authors welcome. Major genre publisher.", submit:"https://www.tor.com/about/submitting-to-tor/" },
+      { name:"Restless Books", flag:"🇺🇸", location:"New York, USA", genres:"International literary fiction, narrative nonfiction, translation", notes:"Specifically seeks diverse global voices. Excellent option for Australian authors with international stories.", submit:"https://www.restlessbooks.org/pages/submissions" },
+      { name:"Graywolf Press", flag:"🇺🇸", location:"Minneapolis, USA", genres:"Literary fiction, nonfiction, poetry — international authors", notes:"Highly regarded independent press. Accepts unagented direct submissions. Excellent literary reputation.", submit:"https://www.graywolfpress.org/about/submissions" },
+      { name:"Dundurn Press", flag:"🇨🇦", location:"Toronto, Canada", genres:"Fiction (literary, commercial, crime, historical), nonfiction, YA", notes:"Canada's largest independent publisher. Open to international authors.", submit:"https://www.dundurn.com/pages/submissions" },
+    ]
+  },
+  "resources": {
+    intro: "Bookmark these sites and check them weekly. They are the most current sources for agent and publisher submission status.",
+    items: []
+  }
+};
+
+const RESOURCES = [
+  { name:"QueryTracker", url:"https://querytracker.net", desc:"Free database of 2,000+ literary agents. Track your submissions, read response time stats, see who recently offered representation." },
+  { name:"Manuscript Wishlist (MSWL)", url:"https://www.manuscriptwishlist.com", desc:"Agents post exactly what they're seeking right now. Essential weekly reading. Search by genre to find perfect matches." },
+  { name:"Reedsy Agent Directory — Australia", url:"https://reedsy.com/resources/literary-agents/au/", desc:"19 Australian agents listed and regularly updated. Filter by genre. Also has UK (55 agents) and worldwide (662 agents) directories." },
+  { name:"Jones Novel Editing Blog", url:"https://www.jonesnovelediting.com/blog/australian-publishers-accepting-manuscripts", desc:"Updated every month — currently lists 38 AU publishers accepting submissions. Also maintains a UK list (103 publishers) and fantasy-specific lists." },
+  { name:"Lloyd Literary — AU Agent List", url:"https://lloydliterary.com/2021/10/06/list-of-australian-literary-agents/", desc:"Comprehensive quarterly-updated Australian agent list with detailed submission notes for each agency." },
+  { name:"Australian Society of Authors (ASA)", url:"https://www.asauthors.org.au", desc:"Runs the ASA/HQ Fiction Prize. Member benefits include contract advice, mentorships, and a list of current prizes and opportunities." },
+  { name:"Writing NSW — Competitions", url:"https://writingnsw.org.au/getsupport/prizes-opportunities/competitions-opportunities/", desc:"Comprehensive, regularly updated list of Australian competitions, prize deadlines, fellowships, and writing opportunities." },
+  { name:"Publishers Marketplace", url:"https://www.publishersmarketplace.com", desc:"Industry standard for tracking recent deals. Find agents by genre, see what sold and to whom. Subscription ~US$25/month but invaluable." },
+];
+
+// ─────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────
+let activeTab = "au-agents";
+let activeFilter = "all";
+let expandedCards = new Set();
+
+function getStatusClass(status) {
+  return "status-" + (status || "open");
+}
+function getBadgeHTML(status) {
+  const labels = { open:"OPEN", closed:"CLOSED", seasonal:"SEASONAL", restricted:"RESTRICTED", watch:"WATCH", future:"FUTURE" };
+  return `<span class="badge badge-${status || 'open'}">${labels[status] || "OPEN"}</span>`;
+}
+
+// ─────────────────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────────────────
+function render() {
+  const content = document.getElementById("content");
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const section = DATA[activeTab];
+
+  // Resources tab
+  if (activeTab === "resources") {
+    document.getElementById("statusFilter").style.display = "none";
+    let html = `<p class="section-intro">${section.intro}</p>`;
+    RESOURCES.forEach(r => {
+      html += `
+        <div class="resource-card">
+          <div>
+            <div class="resource-name">${r.name}</div>
+            <div class="resource-desc">${r.desc}</div>
+          </div>
+          <a href="${r.url}" target="_blank" class="resource-link">→ Open</a>
+        </div>`;
+    });
+    content.innerHTML = html;
+    return;
+  }
+
+  // Show filter for tabs that have status
+  const hasStat = ["au-agents","au-awards"].includes(activeTab);
+  document.getElementById("statusFilter").style.display = hasStat ? "flex" : "none";
+
+  // Filter items
+  let items = section.items.filter(item => {
+    const matchSearch = !search ||
+      item.name.toLowerCase().includes(search) ||
+      (item.genres||"").toLowerCase().includes(search) ||
+      (item.notes||"").toLowerCase().includes(search) ||
+      (item.agents||"").toLowerCase().includes(search);
+    const matchFilter = !hasStat || activeFilter === "all" || (item.status||"open") === activeFilter;
+    return matchSearch && matchFilter;
+  });
+
+  let html = `<p class="section-intro">${section.intro}</p>`;
+
+  if (items.length === 0) {
+    html += `<div class="no-results">No results match your search.</div>`;
+    content.innerHTML = html;
+    return;
+  }
+
+  items.forEach((item, i) => {
+    const id = activeTab + "-" + i;
+    const isOpen = expandedCards.has(id);
+    const statusClass = getStatusClass(item.status);
+
+    html += `<div class="card ${statusClass} ${isOpen ? 'open' : ''}" onclick="toggleCard('${id}', this)">
+      <div class="card-header">
+        <div class="card-left">
+          <div class="card-title-row">
+            ${item.flag ? `<span class="card-flag">${item.flag}</span>` : ''}
+            <span class="card-name">${item.name}</span>
+            ${item.status ? getBadgeHTML(item.status) : ''}
+          </div>
+          ${item.agents ? `<div class="card-agents">${item.agents}</div>` : ''}
+          ${item.location ? `<div class="card-agents">${item.location}</div>` : ''}
+          <div class="card-genres"><span>Genres: </span>${item.genres}</div>
+        </div>
+        <span class="card-chevron">▼</span>
+      </div>
+      <div class="card-body">
+        ${item.notes ? `<div class="detail-row"><span class="detail-label">Notes</span><span class="detail-value">${item.notes}</span></div>` : ''}
+        ${item.closingDate ? `<div class="detail-row"><span class="detail-label">Deadline</span><span class="detail-value" style="color:#4cbe8a">${item.closingDate}</span></div>` : ''}
+        ${item.prize ? `<div class="detail-row"><span class="detail-label">Prize</span><span class="detail-value" style="color:#e8c84a">${item.prize}</span></div>` : ''}
+        ${item.eligibility ? `<div class="detail-row"><span class="detail-label">Eligible</span><span class="detail-value">${item.eligibility}</span></div>` : ''}
+        ${item.email ? `<div class="detail-row"><span class="detail-label">Email</span><span class="detail-value" style="color:#7ab3e0">${item.email}</span></div>` : ''}
+        ${item.submit ? `<a href="${item.submit}" target="_blank" class="submit-btn" onclick="event.stopPropagation()">→ Submit / View Guidelines</a>` : ''}
+        ${item.website && !item.submit ? `<a href="${item.website}" target="_blank" class="submit-btn" onclick="event.stopPropagation()">→ Visit Website</a>` : ''}
+      </div>
+    </div>`;
+  });
+
+  content.innerHTML = html;
+}
+
+// ─────────────────────────────────────────────────────────
+// CONTROLS
+// ─────────────────────────────────────────────────────────
+function toggleCard(id, el) {
+  if (expandedCards.has(id)) {
+    expandedCards.delete(id);
+    el.classList.remove("open");
+  } else {
+    expandedCards.add(id);
+    el.classList.add("open");
+  }
+}
+
+function switchTab(tab, btn) {
+  activeTab = tab;
+  expandedCards.clear();
+  activeFilter = "all";
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  document.querySelector(".filter-btn").classList.add("active");
+  render();
+}
+
+function setFilter(f, btn) {
+  activeFilter = f;
+  expandedCards.clear();
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  render();
+}
+
+function filterAll() {
+  expandedCards.clear();
+  render();
+}
+
+// Init
+render();
+</script>
+</body>
+</html>
