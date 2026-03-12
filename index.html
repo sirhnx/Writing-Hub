@@ -4,409 +4,176 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Author Submission Hub — Publishing Directory 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0c1018;
-    --surface: #111520;
-    --surface2: #161c2a;
-    --border: #1e2a40;
-    --border2: #253050;
-    --text: #d4ddf0;
-    --text-dim: #6a80a0;
-    --text-muted: #3a4f6a;
-    --accent: #c8a96e;
-    --accent2: #7ab3e0;
-    --green: #4cbe8a;
-    --red: #e05a6a;
-    --orange: #e8932a;
-    --purple: #9b78d4;
-    --blue: #4a90d8;
-    --gold: #e8c84a;
+    --red: #e8192c;
+    --black: #111111;
+    --white: #ffffff;
+    --offwhite: #f7f7f7;
+    --lightgray: #eeeeee;
+    --midgray: #888888;
+    --darkgray: #333333;
+    --red-dark: #c0141f;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--white); color: var(--black); font-family: 'Montserrat', sans-serif; font-weight: 300; line-height: 1.6; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    min-height: 100vh;
-    line-height: 1.6;
-  }
+  /* NAV */
+  nav { background: var(--white); border-bottom: 2px solid var(--black); position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 0 16px; height: 58px; }
+  .tab-nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; width: 100%; justify-content: center; }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-btn { padding: 0 16px; height: 58px; font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border: none; background: transparent; color: var(--midgray); border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--black); }
+  .tab-btn.active { color: var(--red); border-bottom-color: var(--red); }
 
-  /* Subtle noise texture overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
+  /* HERO */
+  .hero { background: var(--red); color: var(--white); text-align: center; padding: 65px 20px 80px; position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 40px; background: var(--white); clip-path: ellipse(55% 100% at 50% 100%); }
+  .hero-eyebrow { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; opacity: 0.85; margin-bottom: 16px; }
+  .hero h1 { font-family: 'Dancing Script', cursive; font-size: clamp(2.8rem, 8vw, 5rem); line-height: 1; margin-bottom: 10px; }
+  .hero-sub { font-size: 0.75rem; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.9; margin-bottom: 26px; }
+  .hero-badge { display: inline-block; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: var(--white); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 16px; border-radius: 30px; }
 
-  .wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px 60px; position: relative; z-index: 1; }
+  /* STATS */
+  .stats-bar { background: var(--black); display: flex; justify-content: center; flex-wrap: wrap; }
+  .stat-item { padding: 20px 24px; text-align: center; border-right: 1px solid #222; min-width: 90px; }
+  .stat-item:last-child { border-right: none; }
+  .stat-num { font-size: 1.7rem; font-weight: 900; color: var(--red); line-height: 1; display: block; }
+  .stat-lbl { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #555; margin-top: 4px; display: block; }
 
-  /* ── HEADER ── */
-  header { text-align: center; margin-bottom: 48px; }
-  .eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 14px;
-  }
-  h1 {
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 300;
-    color: #e8eeff;
-    letter-spacing: 0.02em;
-    line-height: 1.15;
-    margin-bottom: 10px;
-  }
-  h1 em { font-style: italic; color: var(--accent); }
-  .subtitle {
-    font-size: 1rem;
-    color: var(--text-dim);
-    font-style: italic;
-    margin-bottom: 20px;
-  }
-  .updated-badge {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    color: var(--accent);
-    padding: 5px 14px;
-    border-radius: 20px;
-    letter-spacing: 0.1em;
-  }
+  /* UPDATE BANNER */
+  .update-banner { background: var(--offwhite); border-left: 5px solid var(--red); margin: 36px auto; max-width: 860px; padding: 16px 22px; display: flex; gap: 14px; align-items: flex-start; }
+  .update-banner .icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+  .update-banner h3 { font-size: 0.65rem; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); margin-bottom: 5px; }
+  .update-banner p { font-size: 0.78rem; color: var(--darkgray); line-height: 1.7; }
+  .update-banner strong { font-weight: 700; color: var(--black); }
 
-  /* ── STATS ── */
-  .stats-row {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin: 28px 0;
-  }
-  .stat-pill {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 18px;
-    text-align: center;
-    min-width: 90px;
-  }
-  .stat-pill .num { font-size: 1.6rem; font-weight: 600; line-height: 1; }
-  .stat-pill .lbl { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 3px; }
+  /* MAIN */
+  .main { max-width: 860px; margin: 0 auto; padding: 0 20px 60px; }
 
-  /* ── UPDATE NOTICE ── */
-  .update-notice {
-    background: linear-gradient(135deg, #0a1f0f, #0d1a12);
-    border: 1px solid #1a4025;
-    border-left: 3px solid var(--green);
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin-bottom: 30px;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-  }
-  .update-notice .icon { font-size: 1.3rem; line-height: 1; margin-top: 2px; flex-shrink: 0; }
-  .update-notice h3 { color: var(--green); font-size: 0.85rem; font-family: 'DM Mono', monospace; font-weight: 500; margin-bottom: 5px; }
-  .update-notice p { color: #7aaa85; font-size: 0.82rem; line-height: 1.7; font-family: 'DM Mono', monospace; font-weight: 300; }
-  .update-notice strong { color: #a0d4a8; }
+  /* SEARCH */
+  .search-wrap { margin-bottom: 22px; }
+  .search-wrap input { width: 100%; border: 2px solid var(--black); padding: 12px 16px; font-size: 0.88rem; font-family: 'Montserrat', sans-serif; font-weight: 300; color: var(--black); background: var(--white); outline: none; transition: border-color 0.15s; border-radius: 0; }
+  .search-wrap input:focus { border-color: var(--red); }
+  .search-wrap input::placeholder { color: #bbb; }
 
-  /* ── SEARCH ── */
-  .search-wrap { margin-bottom: 20px; position: relative; }
-  .search-wrap input {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    color: var(--text);
-    padding: 12px 16px 12px 42px;
-    border-radius: 10px;
-    font-size: 0.92rem;
-    font-family: 'Cormorant Garamond', serif;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .search-wrap input:focus { border-color: var(--accent2); }
-  .search-wrap input::placeholder { color: var(--text-muted); }
-  .search-wrap .search-icon {
-    position: absolute;
-    left: 14px; top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
-    font-size: 1rem;
-    pointer-events: none;
-  }
+  /* STATUS FILTER */
+  .status-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 22px; }
+  .filter-btn { padding: 5px 13px; font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border: 2px solid var(--lightgray); background: transparent; color: var(--midgray); transition: all 0.15s; }
+  .filter-btn:hover { border-color: var(--black); color: var(--black); }
+  .filter-btn.active { background: var(--black); border-color: var(--black); color: var(--white); }
 
-  /* ── TABS ── */
-  .tab-nav {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-  }
-  .tab-btn {
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-size: 0.82rem;
-    cursor: pointer;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text-muted);
-    font-family: 'DM Mono', monospace;
-    font-weight: 400;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .tab-btn:hover { color: var(--text-dim); border-color: var(--border2); }
-  .tab-btn.active {
-    background: var(--surface2);
-    color: var(--accent2);
-    border-color: var(--accent2);
-  }
-  .tab-count { opacity: 0.6; font-size: 0.75rem; }
+  /* SECTION INTRO */
+  .section-intro { font-size: 0.8rem; color: var(--midgray); font-style: italic; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid var(--lightgray); }
 
-  /* ── STATUS FILTER ── */
-  .status-filter {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-    margin-bottom: 18px;
-  }
-  .filter-btn {
-    padding: 3px 10px;
-    border-radius: 4px;
-    font-size: 0.68rem;
-    cursor: pointer;
-    background: transparent;
-    border: 1px solid transparent;
-    color: var(--text-muted);
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: all 0.15s;
-  }
-  .filter-btn:hover { color: var(--text-dim); }
-  .filter-btn.active { background: var(--surface2); border-color: var(--border2); color: var(--accent2); }
-
-  /* ── SECTION HEADING ── */
-  .section-intro {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    font-style: italic;
-    margin-bottom: 18px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* ── CARDS ── */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--border2);
-    border-radius: 12px 0 0 12px;
-    transition: background 0.2s;
-  }
-  .card.open, .card:hover { background: var(--surface2); border-color: var(--border2); }
-  .card.status-open::before { background: var(--green); }
-  .card.status-seasonal::before { background: var(--orange); }
-  .card.status-restricted::before { background: var(--purple); }
-  .card.status-closed::before { background: var(--red); }
-  .card.status-watch::before { background: var(--blue); }
-  .card.status-future::before { background: var(--text-muted); }
-
-  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  /* CARDS */
+  .card { border: 2px solid var(--lightgray); margin-bottom: 7px; cursor: pointer; transition: border-color 0.15s; background: var(--white); }
+  .card:hover { border-color: var(--darkgray); }
+  .card.open { border-color: var(--red); }
+  .card-header { padding: 15px 18px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
   .card-left { flex: 1; }
-  .card-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
-  .card-flag { font-size: 1.1rem; line-height: 1; }
-  .card-name { font-size: 1.05rem; font-weight: 600; color: #e0eaff; letter-spacing: 0.01em; }
-  .card-agents { font-size: 0.78rem; color: var(--text-muted); font-style: italic; font-family: 'DM Mono', monospace; font-weight: 300; margin-bottom: 5px; }
-  .card-genres { font-size: 0.85rem; color: var(--text-dim); }
-  .card-genres span { color: var(--accent2); }
-  .card-chevron { color: var(--text-muted); font-size: 0.8rem; flex-shrink: 0; transition: transform 0.2s; }
-  .card.open .card-chevron { transform: rotate(180deg); }
+  .card-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 3px; }
+  .card-flag { font-size: 1rem; }
+  .card-name { font-size: 0.92rem; font-weight: 700; color: var(--black); }
+  .card-agents { font-size: 0.7rem; color: var(--midgray); font-style: italic; margin-bottom: 3px; }
+  .card-genres { font-size: 0.76rem; color: var(--darkgray); }
+  .card-genres span { color: var(--red); font-weight: 600; }
+  .card-chevron { font-size: 0.72rem; color: var(--midgray); flex-shrink: 0; margin-top: 4px; transition: transform 0.2s; }
+  .card.open .card-chevron { transform: rotate(180deg); color: var(--red); }
 
-  /* Status badges */
-  .badge {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem;
-    font-weight: 500;
-    padding: 2px 7px;
-    border-radius: 3px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  .badge-open { background: #0d2e1e; color: var(--green); border: 1px solid #1a5030; }
-  .badge-closed { background: #2a0e12; color: var(--red); border: 1px solid #501828; }
-  .badge-seasonal { background: #2a1a08; color: var(--orange); border: 1px solid #503010; }
-  .badge-restricted { background: #1e1030; color: var(--purple); border: 1px solid #3a1e60; }
-  .badge-watch { background: #0e1e30; color: var(--blue); border: 1px solid #1a3a58; }
-  .badge-future { background: #1a1a1a; color: #888; border: 1px solid #333; }
+  /* BADGES */
+  .badge { font-size: 0.52rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 2px 7px; border: 1.5px solid; white-space: nowrap; }
+  .badge-open { color: #1a7a3f; border-color: #1a7a3f; background: #e8f5ee; }
+  .badge-closed { color: #9e1a1a; border-color: #9e1a1a; background: #fdecea; }
+  .badge-seasonal { color: #8a4f00; border-color: #8a4f00; background: #fff3e0; }
+  .badge-restricted { color: #5b2d8a; border-color: #5b2d8a; background: #f3eaff; }
+  .badge-watch { color: #1a4f8a; border-color: #1a4f8a; background: #e3f0ff; }
+  .badge-future { color: #555; border-color: #bbb; background: #f5f5f5; }
 
-  /* Card expanded content */
-  .card-body {
-    display: none;
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid var(--border);
-  }
+  /* CARD BODY */
+  .card-body { display: none; padding: 0 18px 16px; border-top: 1px solid var(--lightgray); }
   .card.open .card-body { display: block; }
+  .detail-row { display: flex; gap: 10px; margin-top: 11px; font-size: 0.78rem; line-height: 1.6; align-items: flex-start; }
+  .detail-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); min-width: 68px; margin-top: 2px; flex-shrink: 0; }
+  .detail-value { color: var(--darkgray); }
+  .detail-value.green { color: #1a6e35; font-weight: 600; }
+  .detail-value.gold { color: #7a5500; font-weight: 600; }
+  .detail-value.blue { color: #1a3f7a; }
+  .submit-btn { display: inline-block; margin-top: 13px; padding: 9px 20px; background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; border: 2px solid var(--black); transition: all 0.15s; }
+  .submit-btn:hover { background: var(--red); border-color: var(--red); }
 
-  .detail-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
-    font-size: 0.84rem;
-    line-height: 1.6;
-  }
-  .detail-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    font-weight: 500;
-    color: var(--accent);
-    white-space: nowrap;
-    margin-top: 2px;
-    min-width: 70px;
-  }
-  .detail-value { color: #b8cce0; }
+  /* RESOURCES */
+  .resource-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+  .resource-card { border: 2px solid var(--lightgray); padding: 18px; transition: border-color 0.15s; display: flex; flex-direction: column; gap: 12px; }
+  .resource-card:hover { border-color: var(--red); }
+  .resource-name { font-size: 0.88rem; font-weight: 700; color: var(--black); margin-bottom: 5px; }
+  .resource-desc { font-size: 0.76rem; color: var(--midgray); line-height: 1.65; flex: 1; }
+  .resource-link { display: inline-block; padding: 8px 16px; background: var(--red); color: var(--white); font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; align-self: flex-start; transition: background 0.15s; }
+  .resource-link:hover { background: var(--red-dark); }
 
-  .submit-btn {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 7px 16px;
-    background: var(--surface);
-    border: 1px solid var(--border2);
-    color: var(--accent2);
-    border-radius: 7px;
-    font-size: 0.78rem;
-    text-decoration: none;
-    font-family: 'DM Mono', monospace;
-    transition: all 0.15s;
-  }
-  .submit-btn:hover { background: var(--surface2); border-color: var(--accent2); }
+  /* BLACK SECTION */
+  .black-section { background: var(--black); padding: 55px 20px; text-align: center; margin-top: 50px; }
+  .black-section h2 { font-family: 'Dancing Script', cursive; font-size: 2.4rem; color: var(--white); margin-bottom: 12px; }
+  .black-section p { font-size: 0.78rem; color: #666; max-width: 500px; margin: 0 auto; line-height: 1.9; }
+  .black-section strong { color: #999; }
 
-  /* ── RESOURCE CARDS ── */
-  .resource-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .resource-card:hover { background: var(--surface2); border-color: var(--border2); }
-  .resource-name { font-size: 1rem; font-weight: 600; color: #e0eaff; margin-bottom: 4px; }
-  .resource-desc { font-size: 0.82rem; color: var(--text-dim); font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.6; }
-  .resource-link {
-    display: inline-block;
-    flex-shrink: 0;
-    padding: 7px 16px;
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    color: var(--accent2);
-    border-radius: 7px;
-    font-size: 0.78rem;
-    text-decoration: none;
-    font-family: 'DM Mono', monospace;
-    white-space: nowrap;
-  }
-  .resource-link:hover { border-color: var(--accent2); }
+  /* NO RESULTS */
+  .no-results { text-align: center; padding: 55px 0; color: var(--midgray); font-style: italic; }
 
-  /* ── NO RESULTS ── */
-  .no-results { text-align: center; color: var(--text-muted); padding: 50px 0; font-style: italic; font-size: 1rem; }
-
-  /* ── FOOTER ── */
-  footer {
-    margin-top: 50px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-    text-align: center;
-  }
-  footer p { color: var(--text-muted); font-size: 0.78rem; font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.9; }
-
-  /* ── DIVIDER ── */
-  .ornament { text-align: center; color: var(--text-muted); margin: 30px 0 10px; font-size: 1rem; letter-spacing: 0.5em; }
+  /* FOOTER */
+  footer { background: var(--black); color: #444; text-align: center; padding: 22px 20px; font-size: 0.68rem; border-top: 1px solid #1a1a1a; line-height: 2; }
+  footer a { color: var(--red); text-decoration: none; }
 
   @media (max-width: 600px) {
-    .stats-row { gap: 6px; }
-    .stat-pill { min-width: 70px; padding: 8px 12px; }
-    .tab-btn { font-size: 0.75rem; padding: 6px 10px; }
+    .stat-item { padding: 16px 14px; min-width: 70px; }
+    .stat-num { font-size: 1.4rem; }
+    .tab-btn { padding: 0 10px; font-size: 0.55rem; }
+    .resource-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <!-- HEADER -->
-  <header>
-    <div class="eyebrow">Australian & Worldwide Publishing Directory</div>
-    <h1>Author <em>Submission</em> Hub</h1>
-    <p class="subtitle">Agents · Publishers · Awards · Resources for Fiction Writers</p>
-    <span class="updated-badge">⟳ Last Updated: March 12, 2026</span>
-  </header>
-
-  <!-- STATS -->
-  <div class="stats-row">
-    <div class="stat-pill"><div class="num" style="color:#7ab3e0">11</div><div class="lbl">AU Agents</div></div>
-    <div class="stat-pill"><div class="num" style="color:#4cbe8a">4</div><div class="lbl">Open Now</div></div>
-    <div class="stat-pill"><div class="num" style="color:#e8932a">2</div><div class="lbl">Seasonal</div></div>
-    <div class="stat-pill"><div class="num" style="color:#9b78d4">17</div><div class="lbl">AU Publishers</div></div>
-    <div class="stat-pill"><div class="num" style="color:#e8c84a">8</div><div class="lbl">AU Awards</div></div>
-    <div class="stat-pill"><div class="num" style="color:#c8a96e">16</div><div class="lbl">Worldwide</div></div>
+<nav>
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab('au-agents',this)">🇦🇺 AU Agents</button>
+    <button class="tab-btn" onclick="switchTab('au-publishers',this)">🇦🇺 Publishers</button>
+    <button class="tab-btn" onclick="switchTab('au-awards',this)">🏆 Awards</button>
+    <button class="tab-btn" onclick="switchTab('world-agents',this)">🌏 World Agents</button>
+    <button class="tab-btn" onclick="switchTab('world-publishers',this)">🌍 World Publishers</button>
+    <button class="tab-btn" onclick="switchTab('resources',this)">📚 Resources</button>
   </div>
+</nav>
 
-  <!-- UPDATE NOTICE -->
-  <div class="update-notice">
+<section class="hero">
+  <div class="hero-eyebrow">Australian & Worldwide Publishing Directory</div>
+  <h1>author submission hub</h1>
+  <div class="hero-sub">Agents · Publishers · Awards · Resources · 2026</div>
+  <span class="hero-badge">⟳ Last Updated: March 12, 2026</span>
+</section>
+
+<div class="stats-bar">
+  <div class="stat-item"><span class="stat-num">11</span><span class="stat-lbl">AU Agents</span></div>
+  <div class="stat-item"><span class="stat-num">4</span><span class="stat-lbl">Open Now</span></div>
+  <div class="stat-item"><span class="stat-num">17</span><span class="stat-lbl">AU Publishers</span></div>
+  <div class="stat-item"><span class="stat-num">8</span><span class="stat-lbl">AU Awards</span></div>
+  <div class="stat-item"><span class="stat-num">16</span><span class="stat-lbl">Worldwide</span></div>
+</div>
+
+<div class="main">
+  <div class="update-banner">
     <div class="icon">🔄</div>
     <div>
       <h3>Weekly Update Guide</h3>
-      <p>Check these sites weekly for changes: <strong>jonesnovelediting.com</strong> (AU publishers, updated monthly) · <strong>lloydliterary.com</strong> (AU agents, quarterly) · <strong>manuscriptwishlist.com</strong> (agents' current wants) · <strong>asauthors.org.au</strong> (awards & prizes). See the <strong>Live Resources</strong> tab for direct links.</p>
+      <p>Check these sites weekly: <strong>jonesnovelediting.com</strong> (AU publishers, updated monthly) · <strong>lloydliterary.com</strong> (AU agents, quarterly) · <strong>manuscriptwishlist.com</strong> (what agents want right now) · <strong>asauthors.org.au</strong> (prizes & awards). See the <strong>Resources</strong> tab for direct links.</p>
     </div>
   </div>
 
-  <!-- SEARCH -->
   <div class="search-wrap">
-    <span class="search-icon">⌕</span>
     <input type="text" id="searchInput" placeholder="Search by name, genre, or keyword…" oninput="filterAll()">
   </div>
 
-  <!-- TABS -->
-  <nav class="tab-nav" id="tabNav">
-    <button class="tab-btn active" onclick="switchTab('au-agents',this)">🇦🇺 AU Agents <span class="tab-count">(11)</span></button>
-    <button class="tab-btn" onclick="switchTab('au-publishers',this)">🇦🇺 AU Publishers <span class="tab-count">(17)</span></button>
-    <button class="tab-btn" onclick="switchTab('au-awards',this)">🏆 AU Awards <span class="tab-count">(8)</span></button>
-    <button class="tab-btn" onclick="switchTab('world-agents',this)">🌏 World Agents <span class="tab-count">(8)</span></button>
-    <button class="tab-btn" onclick="switchTab('world-publishers',this)">🌍 World Publishers <span class="tab-count">(8)</span></button>
-    <button class="tab-btn" onclick="switchTab('resources',this)">📚 Live Resources <span class="tab-count">(8)</span></button>
-  </nav>
-
-  <!-- STATUS FILTER -->
   <div class="status-filter" id="statusFilter">
     <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
     <button class="filter-btn" onclick="setFilter('open',this)">Open</button>
@@ -415,25 +182,20 @@
     <button class="filter-btn" onclick="setFilter('closed',this)">Closed</button>
   </div>
 
-  <!-- CONTENT PANELS -->
   <div id="content"></div>
-
-  <footer>
-    <div class="ornament">· · ·</div>
-    <p>
-      ⚠ Submission windows change frequently — always verify on the agency/publisher's official website before submitting.<br>
-      Sources: lloydliterary.com · jonesnovelediting.com · reedsy.com · asauthors.org.au · writingnsw.org.au · individual agency websites.<br>
-      Built for a fiction author · Updated via GitHub Pages
-    </p>
-  </footer>
-
 </div>
 
-<script>
-// ─────────────────────────────────────────────────────────
-// DATA
-// ─────────────────────────────────────────────────────────
+<div class="black-section">
+  <h2>good luck with your submissions</h2>
+  <p>Always verify submission windows directly on each agency or publisher's official website before sending your manuscript — details change frequently.<br><br>
+  <strong>Sources:</strong> lloydliterary.com · jonesnovelediting.com · reedsy.com · asauthors.org.au · writingnsw.org.au</p>
+</div>
 
+<footer>
+  Built for a fiction author · Updated via GitHub Pages · <a href="https://www.asauthors.org.au" target="_blank">Australian Society of Authors</a>
+</footer>
+
+<script>
 const DATA = {
   "au-agents": {
     intro: "Australian literary agents — submission status as of March 2026. Always verify current status on the agency's official website before submitting. Most AU agencies only represent Australian or NZ residents.",
@@ -449,7 +211,6 @@ const DATA = {
       { name:"Margaret Connolly & Associates", agents:"Margaret Connolly", status:"open", genres:"Wide range of fiction and nonfiction, illustration", notes:"30 years of experience. Member of ALAA. Always check website for current status.", submit:"https://www.margaretconnolly.com.au", email:"Via website" },
       { name:"Margaret Kennedy Agency (MK Agency)", agents:"Hannah Douglas", status:"seasonal", genres:"Adult literary fiction (not genre fiction), literary nonfiction", notes:"Open JANUARY and JULY only.", submit:"https://www.margaretkennedyagency.com/submissions", email:"Via website" },
       { name:"Melanie Ostell Literary", agents:"Melanie Ostell", status:"open", genres:"Literary fiction, narrative nonfiction, memoir", notes:"25+ years in publishing. Known for championing literary fiction. Confirm current status on website.", submit:"https://melanieostell.com.au", email:"Via website" },
-
     ]
   },
   "au-publishers": {
@@ -477,9 +238,9 @@ const DATA = {
   "au-awards": {
     intro: "Australian literary awards for unpublished manuscripts and fiction. Deadlines change year to year — always confirm on the official website.",
     items: [
-      { name:"Victorian Premier's Literary Award — Unpublished Manuscript", status:"closed", prize:"$15,000 + 2-week residency at McCraith House, Dromana (RMIT partnership)", eligibility:"Victorian residents only. Unpublished fiction manuscript — novel or story collection.", closingDate:"Opens ~September 2026 for 2027 awards", notes:"Past winners include Graeme Simsion (The Rosie Project), Jane Harper (The Dry), and Maxine Beneba Clarke (Foreign Soil). One of Australia's most prestigious launching pads.", website:"https://www.wheelercentre.com/victorian-premier-s-literary-awards" },
-      { name:"ASA/HQ Fiction Prize", status:"closed", prize:"$10,000 advance against royalties + publishing contract with HarperCollins HQ", eligibility:"Australian authors. Complete unpublished adult fiction manuscript.", closingDate:"Biennial. 2026 edition closed Jan 30, 2026. Next expected: late 2027.", notes:"Biennial prize run by the Australian Society of Authors with HarperCollins. Past winners have gone on to multi-book careers.", website:"https://www.asauthors.org.au" },
-      { name:"Penguin Literary Prize", status:"closed", prize:"Publishing contract with Penguin Random House Australia", eligibility:"AU/NZ residents. Complete unpublished adult literary fiction manuscript.", closingDate:"2026 edition closed Dec 15, 2025. Next round expected ~Nov/Dec 2026.", notes:"Established to find and develop new Australian authors of literary fiction.", website:"https://www.penguin.com.au/penguinliteraryprize" },
+      { name:"Victorian Premier's Literary Award — Unpublished Manuscript", status:"closed", prize:"$15,000 + 2-week residency at McCraith House, Dromana (RMIT partnership)", eligibility:"Victorian residents only. Unpublished fiction manuscript — novel or story collection.", closingDate:"Opens ~September 2026 for 2027 awards", notes:"Past winners include Graeme Simsion (The Rosie Project), Jane Harper (The Dry), and Maxine Beneba Clarke (Foreign Soil).", website:"https://www.wheelercentre.com/victorian-premier-s-literary-awards" },
+      { name:"ASA/HQ Fiction Prize", status:"closed", prize:"$10,000 advance + publishing contract with HarperCollins HQ", eligibility:"Australian authors. Complete unpublished adult fiction manuscript.", closingDate:"Biennial. 2026 edition closed Jan 30. Next expected: late 2027.", notes:"Biennial prize by the Australian Society of Authors with HarperCollins. Past winners have gone on to multi-book careers.", website:"https://www.asauthors.org.au" },
+      { name:"Penguin Literary Prize", status:"closed", prize:"Publishing contract with Penguin Random House Australia", eligibility:"AU/NZ residents. Complete unpublished adult literary fiction manuscript.", closingDate:"2026 edition closed Dec 15, 2025. Next round ~Nov/Dec 2026.", notes:"Established to find and develop new Australian authors of literary fiction.", website:"https://www.penguin.com.au/penguinliteraryprize" },
       { name:"Hungerford Award (Fremantle Press)", status:"watch", prize:"$15,000 cash + publishing contract with Fremantle Press + fellowship at Centre for Stories", eligibility:"Unpublished writers. Adult fiction, narrative nonfiction, YA fiction, or verse novel. 50,000–100,000 words.", closingDate:"Biennial (even-numbered years) — watch for 2026 round opening.", notes:"WA's most prestigious award for unpublished work. Held in even-numbered years.", website:"https://fremantlepress.com.au/for-writers/hungerford-award/" },
       { name:"Victorian Premier's Literary Award — Fiction (published)", status:"future", prize:"$25,000 + eligible for $100,000 Victorian Prize for Literature", eligibility:"Books published between Jan 1–Dec 31 of prior year.", closingDate:"Opens ~September 2026 for books published during 2026.", notes:"Keep this in mind for future published works. Australia's richest state-based literary prize pool.", website:"https://www.wheelercentre.com/victorian-premier-s-literary-awards" },
       { name:"Banjo Paterson Writing Awards", status:"open", prize:"Cash prizes across categories", eligibility:"Short story, contemporary poetry, children's writing. Australian themed. All writers.", closingDate:"May 1, 2026", notes:"Established 1991. Annual. Named for Banjo Paterson. Three separate categories.", website:"https://www.orange.nsw.gov.au/banjopaterson" },
@@ -491,13 +252,13 @@ const DATA = {
     intro: "International literary agents accepting submissions from Australian authors — UK, USA, and Canada. Always confirm submission guidelines on their official websites.",
     items: [
       { name:"Curtis Brown (UK)", flag:"🇬🇧", location:"London, UK", genres:"Literary fiction, commercial fiction, crime, YA, children's, nonfiction", notes:"One of the UK's oldest and largest agencies. International authors accepted. Represents Peter Carey, Kate Atkinson, Kazuo Ishiguro.", submit:"https://www.curtisbrown.co.uk/clients/submit-your-work" },
-      { name:"Madeleine Milburn Literary Agency", flag:"🇬🇧", location:"London, UK", genres:"Commercial fiction, psychological thrillers, romantic comedy, MG, YA, nonfiction", notes:"Accepts international authors. Submit via online form — 3 chapters + synopsis. Hands-on approach with global deals.", submit:"https://www.madeleinemilburn.co.uk/submissions/" },
+      { name:"Madeleine Milburn Literary Agency", flag:"🇬🇧", location:"London, UK", genres:"Commercial fiction, psychological thrillers, romantic comedy, MG, YA, nonfiction", notes:"Accepts international authors. Submit via online form — 3 chapters + synopsis.", submit:"https://www.madeleinemilburn.co.uk/submissions/" },
       { name:"Eve White Literary Agency", flag:"🇬🇧", location:"London, UK", genres:"Wide range of adult fiction and nonfiction, children's", notes:"Accepts submissions from ANYWHERE in the world, written in English. Replies within one week. Does not use AI screening.", submit:"https://evewhite.co.uk/submissions/" },
       { name:"Mushens Entertainment", flag:"🇬🇧", location:"London, UK", genres:"Commercial and genre fiction, women's fiction, YA, fantasy, thrillers", notes:"Juliet Mushens is highly regarded for discovering and launching debut authors into major careers.", submit:"https://www.mushensentertainment.com/submissions" },
-      { name:"Donald Maass Literary Agency", flag:"🇺🇸", location:"New York, USA", genres:"Commercial fiction, literary fiction, crime, historical, SF/F, thrillers", notes:"One of the most reputable US agencies. Accepts international queries. Represent major bestsellers.", submit:"https://www.maassagency.com/submit" },
+      { name:"Donald Maass Literary Agency", flag:"🇺🇸", location:"New York, USA", genres:"Commercial fiction, literary fiction, crime, historical, SF/F, thrillers", notes:"One of the most reputable US agencies. Accepts international queries.", submit:"https://www.maassagency.com/submit" },
       { name:"New Leaf Literary & Media", flag:"🇺🇸", location:"New York, USA", genres:"Fiction (all categories), nonfiction, YA, MG", notes:"Known for international deals. Accepts queries from anywhere. Strong rights department.", submit:"https://www.newleafliterary.com/submissions/" },
-      { name:"Aevitas Creative Management", flag:"🇺🇸", location:"New York, USA", genres:"Literary fiction, upmarket commercial fiction, narrative nonfiction", notes:"Mid-to-large prestige agency. Query individual agents via website. International authors welcome.", submit:"https://aevitascreative.com/agents/" },
-      { name:"KT Literary", flag:"🇺🇸", location:"Colorado, USA", genres:"MG, YA, adult fiction (romance, SF/F, literary)", notes:"Sara Megibow is highly active on Manuscript Wishlist. Accepts international queries. Strong debut track record.", submit:"https://ktliterary.com/submissions/" },
+      { name:"Aevitas Creative Management", flag:"🇺🇸", location:"New York, USA", genres:"Literary fiction, upmarket commercial fiction, narrative nonfiction", notes:"Prestige agency. Query individual agents via website. International authors welcome.", submit:"https://aevitascreative.com/agents/" },
+      { name:"KT Literary", flag:"🇺🇸", location:"Colorado, USA", genres:"MG, YA, adult fiction (romance, SF/F, literary)", notes:"Sara Megibow highly active on Manuscript Wishlist. Accepts international queries. Strong debut track record.", submit:"https://ktliterary.com/submissions/" },
     ]
   },
   "world-publishers": {
@@ -508,164 +269,103 @@ const DATA = {
       { name:"Bluemoose Books", flag:"🇬🇧", location:"Hebden Bridge, UK", genres:"Literary and upmarket fiction", notes:"Independent with strong reputation for literary debuts. International submissions accepted.", submit:"https://bluemoosebooks.com/submissions/" },
       { name:"Birlinn / Polygon", flag:"🇬🇧", location:"Edinburgh, Scotland", genres:"Literary fiction, crime, thriller, suspense, women's fiction, historical fiction, romance (60,000+ words)", notes:"Encourages agented submissions but accepts direct. Strong commercial fiction list.", submit:"https://www.birlinn.co.uk/pages/submissions" },
       { name:"Tor Books (Macmillan)", flag:"🇺🇸", location:"New York, USA", genres:"Science fiction, fantasy, horror", notes:"Accepts unagented submissions. International authors welcome. Major genre publisher.", submit:"https://www.tor.com/about/submitting-to-tor/" },
-      { name:"Restless Books", flag:"🇺🇸", location:"New York, USA", genres:"International literary fiction, narrative nonfiction, translation", notes:"Specifically seeks diverse global voices. Excellent option for Australian authors with international stories.", submit:"https://www.restlessbooks.org/pages/submissions" },
-      { name:"Graywolf Press", flag:"🇺🇸", location:"Minneapolis, USA", genres:"Literary fiction, nonfiction, poetry — international authors", notes:"Highly regarded independent press. Accepts unagented direct submissions. Excellent literary reputation.", submit:"https://www.graywolfpress.org/about/submissions" },
+      { name:"Restless Books", flag:"🇺🇸", location:"New York, USA", genres:"International literary fiction, narrative nonfiction, translation", notes:"Specifically seeks diverse global voices. Excellent option for Australian authors.", submit:"https://www.restlessbooks.org/pages/submissions" },
+      { name:"Graywolf Press", flag:"🇺🇸", location:"Minneapolis, USA", genres:"Literary fiction, nonfiction, poetry — international authors", notes:"Highly regarded independent press. Accepts unagented direct submissions.", submit:"https://www.graywolfpress.org/about/submissions" },
       { name:"Dundurn Press", flag:"🇨🇦", location:"Toronto, Canada", genres:"Fiction (literary, commercial, crime, historical), nonfiction, YA", notes:"Canada's largest independent publisher. Open to international authors.", submit:"https://www.dundurn.com/pages/submissions" },
     ]
   },
-  "resources": {
-    intro: "Bookmark these sites and check them weekly. They are the most current sources for agent and publisher submission status.",
-    items: []
-  }
+  "resources": { intro: "", items: [] }
 };
 
 const RESOURCES = [
   { name:"QueryTracker", url:"https://querytracker.net", desc:"Free database of 2,000+ literary agents. Track your submissions, read response time stats, see who recently offered representation." },
   { name:"Manuscript Wishlist (MSWL)", url:"https://www.manuscriptwishlist.com", desc:"Agents post exactly what they're seeking right now. Essential weekly reading. Search by genre to find perfect matches." },
   { name:"Reedsy Agent Directory — Australia", url:"https://reedsy.com/resources/literary-agents/au/", desc:"19 Australian agents listed and regularly updated. Filter by genre. Also has UK (55 agents) and worldwide (662 agents) directories." },
-  { name:"Jones Novel Editing Blog", url:"https://www.jonesnovelediting.com/blog/australian-publishers-accepting-manuscripts", desc:"Updated every month — currently lists 38 AU publishers accepting submissions. Also maintains a UK list (103 publishers) and fantasy-specific lists." },
+  { name:"Jones Novel Editing Blog", url:"https://www.jonesnovelediting.com/blog/australian-publishers-accepting-manuscripts", desc:"Updated every month — currently lists 38 AU publishers accepting submissions. Also maintains a UK list (103 publishers)." },
   { name:"Lloyd Literary — AU Agent List", url:"https://lloydliterary.com/2021/10/06/list-of-australian-literary-agents/", desc:"Comprehensive quarterly-updated Australian agent list with detailed submission notes for each agency." },
-  { name:"Australian Society of Authors (ASA)", url:"https://www.asauthors.org.au", desc:"Runs the ASA/HQ Fiction Prize. Member benefits include contract advice, mentorships, and a list of current prizes and opportunities." },
+  { name:"Australian Society of Authors (ASA)", url:"https://www.asauthors.org.au", desc:"Runs the ASA/HQ Fiction Prize. Member benefits include contract advice, mentorships, and a list of current prizes." },
   { name:"Writing NSW — Competitions", url:"https://writingnsw.org.au/getsupport/prizes-opportunities/competitions-opportunities/", desc:"Comprehensive, regularly updated list of Australian competitions, prize deadlines, fellowships, and writing opportunities." },
-  { name:"Publishers Marketplace", url:"https://www.publishersmarketplace.com", desc:"Industry standard for tracking recent deals. Find agents by genre, see what sold and to whom. Subscription ~US$25/month but invaluable." },
+  { name:"Publishers Marketplace", url:"https://www.publishersmarketplace.com", desc:"Industry standard for tracking recent deals. Find agents by genre, see what sold and to whom. ~US$25/month subscription." },
 ];
 
-// ─────────────────────────────────────────────────────────
-// STATE
-// ─────────────────────────────────────────────────────────
-let activeTab = "au-agents";
-let activeFilter = "all";
-let expandedCards = new Set();
+let activeTab = "au-agents", activeFilter = "all", expandedCards = new Set();
 
-function getStatusClass(status) {
-  return "status-" + (status || "open");
-}
-function getBadgeHTML(status) {
-  const labels = { open:"OPEN", closed:"CLOSED", seasonal:"SEASONAL", restricted:"RESTRICTED", watch:"WATCH", future:"FUTURE" };
-  return `<span class="badge badge-${status || 'open'}">${labels[status] || "OPEN"}</span>`;
+function getBadgeHTML(s) {
+  const L = {open:"Open",closed:"Closed",seasonal:"Seasonal",restricted:"Restricted",watch:"Watch",future:"Future"};
+  return `<span class="badge badge-${s||'open'}">${L[s]||"Open"}</span>`;
 }
 
-// ─────────────────────────────────────────────────────────
-// RENDER
-// ─────────────────────────────────────────────────────────
 function render() {
   const content = document.getElementById("content");
   const search = document.getElementById("searchInput").value.toLowerCase();
   const section = DATA[activeTab];
 
-  // Resources tab
   if (activeTab === "resources") {
     document.getElementById("statusFilter").style.display = "none";
-    let html = `<p class="section-intro">${section.intro}</p>`;
-    RESOURCES.forEach(r => {
-      html += `
-        <div class="resource-card">
-          <div>
-            <div class="resource-name">${r.name}</div>
-            <div class="resource-desc">${r.desc}</div>
-          </div>
-          <a href="${r.url}" target="_blank" class="resource-link">→ Open</a>
-        </div>`;
-    });
-    content.innerHTML = html;
+    content.innerHTML = `<div class="resource-grid">${RESOURCES.map(r=>`
+      <div class="resource-card">
+        <div><div class="resource-name">${r.name}</div><div class="resource-desc">${r.desc}</div></div>
+        <a href="${r.url}" target="_blank" class="resource-link">Open →</a>
+      </div>`).join('')}</div>`;
     return;
   }
 
-  // Show filter for tabs that have status
   const hasStat = ["au-agents","au-awards"].includes(activeTab);
   document.getElementById("statusFilter").style.display = hasStat ? "flex" : "none";
 
-  // Filter items
   let items = section.items.filter(item => {
-    const matchSearch = !search ||
-      item.name.toLowerCase().includes(search) ||
-      (item.genres||"").toLowerCase().includes(search) ||
-      (item.notes||"").toLowerCase().includes(search) ||
-      (item.agents||"").toLowerCase().includes(search);
-    const matchFilter = !hasStat || activeFilter === "all" || (item.status||"open") === activeFilter;
-    return matchSearch && matchFilter;
+    const ms = !search || [item.name,item.genres,item.notes,item.agents].some(v=>(v||"").toLowerCase().includes(search));
+    const mf = !hasStat || activeFilter==="all" || (item.status||"open")===activeFilter;
+    return ms && mf;
   });
 
   let html = `<p class="section-intro">${section.intro}</p>`;
-
-  if (items.length === 0) {
-    html += `<div class="no-results">No results match your search.</div>`;
-    content.innerHTML = html;
-    return;
-  }
+  if (!items.length) { content.innerHTML = html + `<div class="no-results">No results match your search.</div>`; return; }
 
   items.forEach((item, i) => {
-    const id = activeTab + "-" + i;
-    const isOpen = expandedCards.has(id);
-    const statusClass = getStatusClass(item.status);
-
-    html += `<div class="card ${statusClass} ${isOpen ? 'open' : ''}" onclick="toggleCard('${id}', this)">
+    const id = activeTab+"-"+i, isOpen = expandedCards.has(id);
+    html += `<div class="card${isOpen?' open':''}" onclick="toggleCard('${id}',this)">
       <div class="card-header">
         <div class="card-left">
           <div class="card-title-row">
-            ${item.flag ? `<span class="card-flag">${item.flag}</span>` : ''}
+            ${item.flag?`<span class="card-flag">${item.flag}</span>`:''}
             <span class="card-name">${item.name}</span>
-            ${item.status ? getBadgeHTML(item.status) : ''}
+            ${item.status?getBadgeHTML(item.status):''}
           </div>
-          ${item.agents ? `<div class="card-agents">${item.agents}</div>` : ''}
-          ${item.location ? `<div class="card-agents">${item.location}</div>` : ''}
+          ${item.agents?`<div class="card-agents">${item.agents}</div>`:''}
+          ${item.location?`<div class="card-agents">${item.location}</div>`:''}
           <div class="card-genres"><span>Genres: </span>${item.genres}</div>
         </div>
         <span class="card-chevron">▼</span>
       </div>
       <div class="card-body">
-        ${item.notes ? `<div class="detail-row"><span class="detail-label">Notes</span><span class="detail-value">${item.notes}</span></div>` : ''}
-        ${item.closingDate ? `<div class="detail-row"><span class="detail-label">Deadline</span><span class="detail-value" style="color:#4cbe8a">${item.closingDate}</span></div>` : ''}
-        ${item.prize ? `<div class="detail-row"><span class="detail-label">Prize</span><span class="detail-value" style="color:#e8c84a">${item.prize}</span></div>` : ''}
-        ${item.eligibility ? `<div class="detail-row"><span class="detail-label">Eligible</span><span class="detail-value">${item.eligibility}</span></div>` : ''}
-        ${item.email ? `<div class="detail-row"><span class="detail-label">Email</span><span class="detail-value" style="color:#7ab3e0">${item.email}</span></div>` : ''}
-        ${item.submit ? `<a href="${item.submit}" target="_blank" class="submit-btn" onclick="event.stopPropagation()">→ Submit / View Guidelines</a>` : ''}
-        ${item.website && !item.submit ? `<a href="${item.website}" target="_blank" class="submit-btn" onclick="event.stopPropagation()">→ Visit Website</a>` : ''}
+        ${item.notes?`<div class="detail-row"><span class="detail-label">Notes</span><span class="detail-value">${item.notes}</span></div>`:''}
+        ${item.closingDate?`<div class="detail-row"><span class="detail-label">Deadline</span><span class="detail-value green">${item.closingDate}</span></div>`:''}
+        ${item.prize?`<div class="detail-row"><span class="detail-label">Prize</span><span class="detail-value gold">${item.prize}</span></div>`:''}
+        ${item.eligibility?`<div class="detail-row"><span class="detail-label">Eligible</span><span class="detail-value">${item.eligibility}</span></div>`:''}
+        ${item.email?`<div class="detail-row"><span class="detail-label">Email</span><span class="detail-value blue">${item.email}</span></div>`:''}
+        ${item.submit?`<a href="${item.submit}" target="_blank" class="submit-btn" onclick="event.stopPropagation()">View Guidelines →</a>`:''}
+        ${item.website&&!item.submit?`<a href="${item.website}" target="_blank" class="submit-btn" onclick="event.stopPropagation()">Visit Website →</a>`:''}
       </div>
     </div>`;
   });
-
   content.innerHTML = html;
 }
 
-// ─────────────────────────────────────────────────────────
-// CONTROLS
-// ─────────────────────────────────────────────────────────
 function toggleCard(id, el) {
-  if (expandedCards.has(id)) {
-    expandedCards.delete(id);
-    el.classList.remove("open");
-  } else {
-    expandedCards.add(id);
-    el.classList.add("open");
-  }
+  expandedCards.has(id) ? (expandedCards.delete(id), el.classList.remove("open")) : (expandedCards.add(id), el.classList.add("open"));
 }
-
 function switchTab(tab, btn) {
-  activeTab = tab;
-  expandedCards.clear();
-  activeFilter = "all";
-  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-  document.querySelector(".filter-btn").classList.add("active");
-  render();
+  activeTab=tab; expandedCards.clear(); activeFilter="all";
+  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active");
+  document.querySelectorAll(".filter-btn").forEach((b,i)=>b.classList.toggle("active",i===0));
+  window.scrollTo({top:0,behavior:'smooth'}); render();
 }
-
-function setFilter(f, btn) {
-  activeFilter = f;
-  expandedCards.clear();
-  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  render();
+function setFilter(f,btn) {
+  activeFilter=f; expandedCards.clear();
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active"); render();
 }
-
-function filterAll() {
-  expandedCards.clear();
-  render();
-}
-
-// Init
+function filterAll() { expandedCards.clear(); render(); }
 render();
 </script>
 </body>
